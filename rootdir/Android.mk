@@ -10,7 +10,13 @@ LOCAL_SRC_FILES    := etc/init.qcom.bt.sh
 include $(BUILD_PREBUILT)
 
 # Init scripts
+LOCAL_MODULE       := set_baseband.sh
+LOCAL_MODULE_TAGS  := optional eng
+LOCAL_MODULE_CLASS := ETC
+LOCAL_SRC_FILES    := etc/set_baseband.sh
+include $(BUILD_PREBUILT)
 
+# Device init scripts
 include $(CLEAR_VARS)
 LOCAL_MODULE       := init.qcom.rc
 LOCAL_MODULE_TAGS  := optional eng
