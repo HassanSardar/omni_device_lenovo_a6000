@@ -4,11 +4,12 @@ PRODUCT_PACKAGES += \
     camera.device@3.2-impl \
     camera.msm8916 \
     libmm-qcamera \
+    libshim_atomic \
     SnapdragonCamera
 
 # Build libstlport for vendor blobs
-PRODUCT_PACKAGES += \
-    libstlport
+#PRODUCT_PACKAGES += \
+#    libstlport
 
 # Permissions
 PRODUCT_COPY_FILES += \
