@@ -1,6 +1,5 @@
 /*
    Copyright (c) 2016, The CyanogenMod Project
-   Copyright (c) 2017, The OmniRom Project
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -28,22 +27,26 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <errno.h>
 #include <fcntl.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-#include "init_msm8916.h"
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include <android-base/properties.h>
 #include "property_service.h"
-#include <sys/sysinfo.h>
 #include "vendor_init.h"
 #include "log.h"
-#include "util.h"
+
+#include "init_msm8916.h"
+
+using android::base::GetProperty;
+
+__attribute__ ((weak))
+void init_target_properties()
+{
+}
 
 static int read_file2(const char *fname, char *data, int max_size)
 {
@@ -54,7 +57,7 @@ static int read_file2(const char *fname, char *data, int max_size)
 
     fd = open(fname, O_RDONLY);
     if (fd < 0) {
-        ERROR("failed to open '%s'\n", fname);
+        LOG(ERROR) <<  "failed to open '" << fname << "'\n";
         return 0;
     }
 
@@ -72,7 +75,7 @@ static void init_alarm_boot_properties()
 {
     char const *alarm_file = "/proc/sys/kernel/boot_reason";
     char buf[64];
-    std::string tmp = property_get("ro.boot.alarmboot");
+    std::string tmp = GetProperty("ro.boot.alarmboot","");
 
     if (read_file2(alarm_file, buf, sizeof(buf))) {
         /*
@@ -95,32 +98,6 @@ static void init_alarm_boot_properties()
         else
             property_set("ro.alarm_boot", "false");
     }
-}
-
-int is2GB()
-{
-    struct sysinfo sys;
-    sysinfo(&sys);
-    return sys.totalram > 1024ull * 1024 * 1024;
-}
-
-void init_target_properties()
-{
-    /* Device Check */
-    std::string product = property_get("ro.product.name");
-    if ((strstr(product.c_str(), "a6000") == NULL))
-     return;
-
-     property_set("ro.build.product", "Kraft-A6000");
-     property_set("ro.product.device", "Kraft-A6000");
-     property_set("ro.product.model", "Lenovo A6000");
-     property_set("ro.product.name", "Kraft-A6000");
-     property_set("dalvik.vm.heapstartsize", "8m");
-     property_set("dalvik.vm.heapgrowthlimit", is2GB() ? "192m" : "96m");
-     property_set("dalvik.vm.heapsize", is2GB() ? "512m" : "256m");
-     property_set("dalvik.vm.heaptargetutilization", "0.75");
-     property_set("dalvik.vm.heapminfree", is2GB() ? "512k" : "2m");
-     property_set("dalvik.vm.heapmaxfree", "8m");
 }
 
 void vendor_load_properties()
