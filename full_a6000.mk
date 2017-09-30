@@ -28,7 +28,12 @@ PRODUCT_BRAND := Lenovo
 PRODUCT_MODEL := A6000
 PRODUCT_MANUFACTURER := Lenovo
 
-# Build fingerprint
+
+# Device Identifiers
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT="Lenovo/Kraft-A6000/Kraft-A6000:5.0.2/LRX22G/Kraft-A6000_S061_160727:user/release-keys" \
-    PRIVATE_BUILD_DESC="Kraft-A6000-user 5.0.2 LRX22G Kraft-A6000_S061_160727 release-keys"
+     PRODUCT_MODEL="Lenovo A6000" \
+     PRODUCT_NAME="Kraft-A6000" \
+     PRODUCT_DEVICE="Kraft-A6000"
+
+PRODUCT_PROPERTY_OVERRIDES += \
+     ro.build.product=Kraft-A6000
