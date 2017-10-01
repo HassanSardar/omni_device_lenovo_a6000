@@ -6,5 +6,4 @@ PRODUCT_PACKAGES += \
     init.qcom.power.rc \
     init.qcom.ssr.rc \
     init.recovery.qcom.rc \
-    ueventd.qcom.rc \
-    set_baseband.sh
+    ueventd.qcom.rc
